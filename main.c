@@ -9,7 +9,7 @@ typedef struct Interaction
 {
 	char source[60];
 	char target[60];
-	char weight[10];
+	int weight;
 } Interaction;
 
 
@@ -17,7 +17,7 @@ typedef struct Interaction
 typedef struct Relationship
 {
 	char name[60];
-	char weight[10];
+	int weight;
 } Relationship;
 
 typedef struct
@@ -120,7 +120,7 @@ Interaction parseToInteraction(char buffer[256])
 	// Copy the source, target and weight from the row array to the interaction struct
 	strcpy(interaction.source, row[0]);
 	strcpy(interaction.target, row[1]);
-	strcpy(interaction.weight, row[2]);
+	interaction.weight = atoi(row[2]); // Parse the char array to int
 
 	return interaction;
 }
@@ -149,7 +149,7 @@ int main()
 		// Createing a relationship and copying from the interaction
 		Relationship relationship;
 		strcpy(relationship.name, interaction.target);
-		strcpy(relationship.weight, interaction.weight);
+		relationship.weight = interaction.weight;
 
 		// Check if the character name already exists in the character array
 		int array_index = array_includes(characters, interaction.source);
@@ -206,7 +206,7 @@ int main()
 		
 		for (int j = 0; j < character.relationships.count; j++) {
 			Relationship relationship = character.relationships.data[j];
-			printf("  - Name: %s, weight: %s\n", relationship.name, relationship.weight);
+			printf("  - Name: %s, weight: %d\n", relationship.name, relationship.weight);
 		}
 		break;
 
